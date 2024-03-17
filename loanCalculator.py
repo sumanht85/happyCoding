@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import matplotlib.pyplot as plt
 
 st.title('Auto Loan Calculator')
 
@@ -40,3 +41,17 @@ if st.button('Calculate'):
     # for row in loan_schedule:
     #     st.write(f'| {row[0]} | {row[1]:,.2f} | {row[2]:,.2f} | {row[3]:,.2f} | {row[4]:,.2f} | {row[5]:,.2f} |')
   
+# plotting principal and interest
+    payments_data = pd.DataFrame({'Payment Type': ['Principal', 'Interest'], 'Total': [df['Principal'].sum(), df['Interest'].sum()]})
+    fig, ax = plt.subplots()
+    ax.bar(payments_data['Payment Type'], payments_data['Total'])
+    colors = {'Principal': 'blue', 'Interest': 'red'}
+    labels = list(colors.keys())
+    handles = [plt.Rectangle((0,0),1,1, color=colors[label]) for label in labels]
+    ax.legend(handles, labels)
+    st.pyplot(fig)
+    st.write('Principal and Interest Breakdown')
+    # st.write(payments_data)
+    st.write('Total Interest Paid:', round(df['Interest'].sum(), 2))
+    st.write('Total Principal Paid:', round(df['Principal'].sum(), 2))
+    st.write('Monthly Payment:', round(df['Monthly Payment'].iloc[0], 2))
