@@ -52,7 +52,7 @@ def calculate_balance(df):
 book = load_excel('expenses.xlsx')
 
 # Streamlit UI
-st.title("House Building Expense Tracker")
+st.title("RVS House Building Expense Tracker")
 
 menu = ["Login", "Register", "Add Record", "View Reports"]
 choice = st.sidebar.selectbox("Menu", menu)
