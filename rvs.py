@@ -52,15 +52,7 @@ def calculate_balance(df):
 book = load_excel('expenses.xlsx')
 
 # Streamlit UI
-st.title("House Building Expense Tracker")
-
-if 'logged_in' not in st.session_state:
-    st.session_state['logged_in'] = False
-if 'current_page' not in st.session_state:
-    st.session_state['current_page'] = "Login"
-
-def switch_page(page):
-    st.session_state['current_page'] = page
+st.title("RVS House Building Expense Tracker")
 
 menu = ["Login", "Register", "Add Record", "View Reports"]
 choice = st.sidebar.selectbox("Menu", menu)
@@ -72,7 +64,6 @@ if choice == "Register":
     if st.button("Register"):
         register_user(book, username, password)
         st.success("You have successfully registered")
-        switch_page("Login")
 elif choice == "Login":
     st.subheader("Login to Your Account")
     username = st.text_input("Username")
@@ -82,7 +73,6 @@ elif choice == "Login":
             st.success("Logged in successfully")
             st.session_state['logged_in'] = True
             st.session_state['username'] = username
-            switch_page("View Reports")
         else:
             st.error("Invalid Username/Password")
 elif choice == "Add Record" and st.session_state.get('logged_in'):
@@ -94,8 +84,7 @@ elif choice == "Add Record" and st.session_state.get('logged_in'):
     if st.button("Add"):
         add_record(book, st.session_state['username'], date, record_type, description, amount)
         st.success("Record added successfully")
-        switch_page("View Reports")
-elif st.session_state['logged_in'] and st.session_state['current_page'] == "View Reports":
+elif choice == "View Reports" and st.session_state.get('logged_in'):
     st.subheader("Your Reports")
     df = get_user_records(book, st.session_state['username'])
     
